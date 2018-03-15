@@ -3,11 +3,10 @@ from tools import timeit
 import numpy as np
 
 ### Questions I have about the paper
-# why the weird renormalization
-# why the 1 + in the general version...
-# why not -2 in the sigmoid ?
-# why the part with a,b not in Algorithm 1?
-
+# Why the 1 + in the general version...
+# Why not -2 in the sigmoid ?
+# Why the part with a,b not in Algorithm 1?
+# Suppose that w < \lambda but later w = \lambda
 
 class Sparsitron:
 
@@ -22,7 +21,7 @@ class Sparsitron:
 
     def compute_predictions(self):
         """
-        Computes the prediction scalar, assuming weights are up to date
+        Computes the prediction vector, assuming weights are up to date
         """
         self.predictions = self.sparsity * self.proba
 
@@ -50,6 +49,7 @@ class Sparsitron:
 
     @timeit
     def run(self, nb=100):
+        print("running Sparsitron with {} iterations. Sparsity={} // beta={}".format(nb, self.sparsity, self.beta))
         for i in range(nb):
             config = self.iter_gen.next()
             # Let us predict the last variable
@@ -58,5 +58,5 @@ class Sparsitron:
             self.update()
 
         self.print_real_weights()
-        print(self.proba)
-
+        print("Proba found by algo: {}\n".format(self.predictions))
+        print("Weights found by algo: {}\n".format(self.weights))
